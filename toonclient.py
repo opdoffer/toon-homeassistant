@@ -31,15 +31,15 @@ if args.verbose:
 if args.t:
         thermostat = toon.get_thermostat_info()
         temp = float(thermostat["currentTemp"]) / 100
-        print("current_temp:%.2f" % temp)
+        print("%.2f" % temp)
 
 if args.p:
         power = toon.get_power_usage()
-        print("current_powerusage:%d" % power["value"])
+        print("%d" % power["value"])
 
 if args.c:
         state = toon.get_program_state()
-        print("active_state:%d" % state)
+        print("%d" % state)
 
 if args.targetstate is not None:
         print("set_state:%s" % args.targetstate)
