@@ -87,5 +87,5 @@ Sensor:
 4. Restart Home Assistent
 
 ## Make switches to set Toon program
-..to be continued..
+See the configuraion files for examples. Later on more explanation on this.
 
