@@ -1,4 +1,4 @@
-# Toon Python3 Module for Home Assistent
+﻿# Toon Python3 Module for Home Assistent
 Toon Pyton3 module for Home Assistent. This python module is based on the [rvdm/toon](https://github.com/rvdm/toon). All credits for the development for this module and client to rvdm. Many thnx for that.
 The following changes I made to the original module:
 - made this module Python3 compliant print-command is requirering ();
@@ -20,30 +20,55 @@ Basic understanding of the original python2 script toonclient.py and its options
 ```python toon.py install```
 3. Add the following lines into you Home Assistent configuration.yaml (or create a seperate sensor.yaml file and include that in your configuration.yaml file):
 ```
-# Add the following lines to your configuration.yaml
-# Make sure you enter the correct username and password credentials (without <>), which are the same you are using for your Toon mobile app
-
-Sensor:
+sensor:
   - platform: command_line
     name: Toon_temp
     command: "python /config/scripts/toonclient.py -t -U <USERNAME> -P <PASSWORD>"
     unit_of_measurement: '°C'
 
-- platform: command_line
+  - platform: command_line
     name: Toon_PowerUsage
     command: "python /config/scripts/toonclient.py -p -U <USERNAME> -P <PASSWORD>"
-    unit_of_measurement: 'Watt'
+    unit_of_measurement: 'Watt' 
 
-# Following sensor returns current state
-# RELAX (comfort) == 0
-# ACTIVE (thuis) == 1
-# SLEEP (slapen) == 2
-# AWAY (weg) == 3
-# HOLIDAY (vakantie) == 4
-- platform: command_line
+  - platform: command_line
     name: Toon_Program_State
     command: "python /config/scripts/toonclient.py -c -U <USERNAME> -P <PASSWORD>"
 
+
+switch:    
+# The following swith set Toon to "Comfort" with the oncmd and sets Toon to "Sleep" with the offcmd.
+  - platform: command_line
+    switches:
+      toon_prog_comfort:
+        oncmd: "python /config/scripts/toonclient.py -C 0 -U <USERNAME> -P <PASSWORD>"
+        offcmd: "python /config/scripts/toonclient.py -C 2 -U <USERNAME> -P <PASSWORD>"
+
+# The following swith set Toon to "Thuis" with the oncmd and sets Toon to "Weg" with the offcmd.      
+  - platform: command_line
+    switches:
+      toon_prog_thuis:
+        oncmd: "python /config/scripts/toonclient.py -C 1 -U <USERNAME> -P <PASSWORD>"
+        offcmd: "python /config/scripts/toonclient.py -C 3 -U <USERNAME> -P <PASSWORD>"
+       
+# Special Scenes to easily activate the different Toon Programm States
+scene:
+  - name: Toon Comfort
+    entities:
+      switch.toon_prog_comfort: on
+
+  - name: Toon Slapen
+    entities:
+      switch.toon_prog_comfort: off
+
+  - name: Toon Thuis
+    entities:
+      switch.toon_prog_thuis: on
+
+  - name: Toon Weg
+    entities:
+      switch.toon_prog_thuis: off
+       
 ```
 4. Restart Home assistent
 
