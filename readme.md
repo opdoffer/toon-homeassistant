@@ -114,3 +114,6 @@ Sensor:
 ## Make switches to set Toon program
 See the configuraion files for examples. Later on more explanation on this.
 
+## Screendump example HA grouping Toon
+[[https://github.com/opdoffer/toon-homeassistant/blob/master/screen_dump_toon.png|alt=Toon Group in HA]]
+
