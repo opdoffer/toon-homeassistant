@@ -3,15 +3,18 @@ sensor:
     name: Toon_temp
     command: "python /config/scripts/toonclient.py -t -U <USERNAME> -P <PASSWORD>"
     unit_of_measurement: '°C'
+    scan_interval: 60
 
   - platform: command_line
     name: Toon_PowerUsage
     command: "python /config/scripts/toonclient.py -p -U <USERNAME> -P <PASSWORD>"
     unit_of_measurement: 'Watt' 
-
+    scan_interval: 60
+    
   - platform: command_line
     name: Toon_Program_State
     command: "python /config/scripts/toonclient.py -c -U <USERNAME> -P <PASSWORD>"
+    scan_interval: 60
 
 
 switch:    
