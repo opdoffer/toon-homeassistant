@@ -17,11 +17,11 @@ Basic understanding of the original python2 script toonclient.py and its options
 There are basically installation scenarios: General installation for Linux systems based on Debian e.g. Ubuntu or the Home Assistant Docker version. More information on home assistant in Docker check this:https://home-assistant.io/getting-started/installation-docker/
 
 ## Installation (general installation e.g. RaspBerry Pi or Ubuntu virtual machine)
-Step 1. Dowload the toon.py en toonclient.py to a location of your choice (e.g. path/to/config). Home Assitent must be able to access those scripts.
+**Step 1.** Dowload the toon.py en toonclient.py to a location of your choice (e.g. path/to/config). Home Assitent must be able to access those scripts.
 
-Step 2. Import toon.py as a module in your python environment. Use the following command: ```python toon.py install```
+**Step 2.** Import toon.py as a module in your python environment. Use the following command: ```python toon.py install```
 
-Step 3. Add the following lines into you Home Assistant configuration.yaml (or create a seperate sensor.yaml file and include that in your configuration.yaml file):
+**Step 3.** Add the following lines into you Home Assistant configuration.yaml (or create a seperate sensor.yaml file and include that in your configuration.yaml file):
 
 ```
 sensor:
@@ -74,7 +74,7 @@ scene:
       switch.toon_prog_thuis: off
        
 ```
-Step 4. Restart Home Assistant
+**Step 4.** Restart Home Assistant
 
 
 
@@ -82,16 +82,16 @@ Step 4. Restart Home Assistant
 Only use the following steps when you use homeassistant as a container in Docker.
 
 
-Step 1. First follow these instructions to install Home Automation in a docker container: [homeassistant/home-assistant](https://hithub.com/homeassistant/home-assistant)
+**Step 1.** First follow these instructions to install Home Automation in a docker container: [homeassistant/home-assistant](https://hithub.com/homeassistant/home-assistant)
 
-Step 2. Import toon.py module with the following command:
+**Step 2.** Import toon.py module with the following command:
 
 ```
 docker exec <CONTAINERDID> python /config/scripts/toon.py install
 ```
-Replace <CONTAINERID> with the ID of the container that is running homeassistant. Use "docker ps" to list your containers and determine the containerid.
+> Replace <CONTAINERID> with the ID of the container that is running homeassistant. Use "docker ps" to list your containers and determine the containerid.
 
-Step 3. Add the following lines into your Home Assistant configuration.yaml (or create a seperate sensor.yaml file and include that in your configuration.yaml file):
+**Step 3.** Add the following lines into your Home Assistant configuration.yaml (or create a seperate sensor.yaml file and include that in your configuration.yaml file):
 ```
 # Add the following lines to your configuration.yaml
 # Make sure you enter the correct username and password credentials (without <>), which are the same you are using for your Toon mobile app
@@ -119,12 +119,20 @@ Sensor:
     command: "python /config/scripts/toonclient.py -c -U <USERNAME> -P <PASSWORD>"
 
 ```
-Step 4. Restart Home Assistant
+**Step 4.** Restart Home Assistant
 
 ## Make switches to set Toon program
 See the configuraion files for examples. Later on more explanation on this.
 
 ## Screendump example HA grouping Toon
 ![alt tag](https://github.com/opdoffer/toon-homeassistant/blob/master/screen_dump_toon.png)
+
+## ToDo
+- [x] Convert to python3
+- [x] Adjust python client
+- [x] Create home assistent examples
+- [x] Make installation steps more clear
+- [ ] Explain creating "Toon Switchees"
+- [ ] Make polling intervals variable (depends on home assistant core feautures)
 
 
