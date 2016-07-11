@@ -89,6 +89,8 @@ Step 2. Import toon.py module with the following command:
 ```
 docker exec <CONTAINERDID> python /config/scripts/toon.py install
 ```
+Replace <CONTAINERID> with the ID of the container that is running homeassistant. Use "docker ps" to list your containers and determine the containerid.
+
 Step 3. Add the following lines into your Home Assistant configuration.yaml (or create a seperate sensor.yaml file and include that in your configuration.yaml file):
 ```
 # Add the following lines to your configuration.yaml
