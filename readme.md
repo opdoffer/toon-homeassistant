@@ -16,11 +16,9 @@ Basic understanding of the original python2 script toonclient.py and its options
 There are basically installation scenarios: General installation for Linux systems based on Debian e.g. Ubuntu or the Home Assistant Docker version. More information on home assistant in Docker check this:https://home-assistant.io/getting-started/installation-docker/
 
 ## Installation (general installation e.g. RaspBerry Pi or Ubuntu virtual machine)
- 1. Dowload the toon.py en toonclient.py to a location of your choice (e.g. path/to/config). Home Assitent must be able to access those scripts.
- 2. Import toon.py as a module in your python environment. Use the following command:
-
-```python toon.py install```
- 3. Add the following lines into you Home Assistant configuration.yaml (or create a seperate sensor.yaml file and include that in your configuration.yaml file):
+1. Dowload the toon.py en toonclient.py to a location of your choice (e.g. path/to/config). Home Assitent must be able to access those scripts.
+2. Import toon.py as a module in your python environment. Use the following command: ```python toon.py install```
+3. Add the following lines into you Home Assistant configuration.yaml (or create a seperate sensor.yaml file and include that in your configuration.yaml file):
 ```
 sensor:
   - platform: command_line
