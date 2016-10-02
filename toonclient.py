@@ -39,7 +39,7 @@ if args.p:
         print("%d" % power["value"])
 
 if args.g:
-        power = toon.get_gas_usage()
+        gas = toon.get_gas_usage()
         print("%d" % gas["value"])
 		
 if args.c:
