@@ -39,7 +39,7 @@ sensor:
      toongasusage:
        value_template: '{{ states.sensor.toon.state.split("\n")[2] }}'
      toonprogramm:
-       value_template: '{{% if states.sensor.toon.state.split("\n")[3] == "0" %}Comfort{% elif states.sensor.toon.state.split("\n")[3] == "1" %}Home{% elif states.sensor.toon.state.split("\n")[3] == "2" %}Sleep{% elif states.sensor.toon.state.split("\n")[3] == "3" %}Away{% endif %} }'
+       value_template: '{% if states.sensor.toon.state.split("\n")[3] == "0" %}Comfort{% elif states.sensor.toon.state.split("\n")[3] == "1" %}Home{% elif states.sensor.toon.state.split("\n")[3] == "2" %}Sleep{% elif states.sensor.toon.state.split("\n")[3] == "3" %}Away{% endif %}'
 
 # The toonprgramma sensor returns current state
 # Program Turned Off(programm off) == -1
