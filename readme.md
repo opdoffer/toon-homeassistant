@@ -25,33 +25,43 @@ There are basically installation scenarios: General installation for Linux syste
 
 ```
 sensor:
-  - platform: command_line
-    name: Toon_temp
-    command: "python /config/scripts/toonclient.py -t -U <USERNAME> -P <PASSWORD>"
-    unit_of_measurement: '°C'
+#Toon
+ - platform: command_line
+   name: toon
+   command: "python /home/pi/.homeassistant/scripts/toonclient.py -t -p -g -c -U <USERNAME> -P <PASSWORD>"
 
-  - platform: command_line
-    name: Toon_PowerUsage
-    command: "python /config/scripts/toonclient.py -p -U <USERNAME> -P <PASSWORD>"
-    unit_of_measurement: 'Watt' 
+ - platform: template
+   sensors:
+     toontemp:
+       value_template: '{{ states.sensor.toon.state.split("\n")[0] }}'
+     toonpowerusage:
+       value_template: '{{ states.sensor.toon.state.split("\n")[1] }}'
+     toongasusage:
+       value_template: '{{ states.sensor.toon.state.split("\n")[2] }}'
+     toonprogramm:
+       value_template: '{{% if states.sensor.toon.state.split("\n")[3] == "0" %}Comfort{% elif states.sensor.toon.state.split("\n")[3] == "1" %}Home{% elif states.sensor.toon.state.split("\n")[3] == "2" %}Sleep{% elif states.sensor.toon.state.split("\n")[3] == "3" %}Away{% endif %} }'
 
-  - platform: command_line
-    name: Toon_Program_State
-    command: "python /config/scripts/toonclient.py -c -U <USERNAME> -P <PASSWORD>"
+# The toonprgramma sensor returns current state
+# Program Turned Off(programm off) == -1
+# RELAX (comfort) == 0
+# ACTIVE (home) == 1
+# SLEEP (sleep) == 2
+# AWAY (away) == 3
+# HOLIDAY (holiday) == 4
 
 
 switch:    
 # The following swith set Toon to "Comfort" with the oncmd and sets Toon to "Sleep" with the offcmd.
   - platform: command_line
     switches:
-      toon_prog_comfort:
+      toon_prog_comfort_sleep:
         oncmd: "python /config/scripts/toonclient.py -C 0 -U <USERNAME> -P <PASSWORD>"
         offcmd: "python /config/scripts/toonclient.py -C 2 -U <USERNAME> -P <PASSWORD>"
 
-# The following swith set Toon to "Thuis" with the oncmd and sets Toon to "Weg" with the offcmd.      
+# The following swith set Toon to "Home" with the oncmd and sets Toon to "Away" with the offcmd.      
   - platform: command_line
     switches:
-      toon_prog_thuis:
+      toon_prog_home_away:
         oncmd: "python /config/scripts/toonclient.py -C 1 -U <USERNAME> -P <PASSWORD>"
         offcmd: "python /config/scripts/toonclient.py -C 3 -U <USERNAME> -P <PASSWORD>"
        
@@ -61,15 +71,15 @@ scene:
     entities:
       switch.toon_prog_comfort: on
 
-  - name: Toon Slapen
+  - name: Toon Sleep
     entities:
       switch.toon_prog_comfort: off
 
-  - name: Toon Thuis
+  - name: Toon Home
     entities:
       switch.toon_prog_thuis: on
 
-  - name: Toon Weg
+  - name: Toon Away
     entities:
       switch.toon_prog_thuis: off
        
@@ -82,7 +92,7 @@ scene:
 Only use the following steps when you use homeassistant as a container in Docker.
 
 
-**Step 1.** First follow these instructions to install Home Automation in a docker container: [homeassistant/home-assistant](https://hithub.com/homeassistant/home-assistant)
+**Step 1.** First follow these instructions to install Home Automation in a docker container: [homeassistant/home-assistant](https://github.com/home-assistant/home-assistant)
 
 **Step 2.** Import toon.py module with the following command:
 
@@ -91,34 +101,8 @@ docker exec <CONTAINERDID> python /config/scripts/toon.py install
 ```
 > Replace <CONTAINERID> with the ID of the container that is running homeassistant. Use "docker ps" to list your containers and determine the containerid.
 
-**Step 3.** Add the following lines into your Home Assistant configuration.yaml (or create a seperate sensor.yaml file and include that in your configuration.yaml file):
-```
-# Add the following lines to your configuration.yaml
-# Make sure you enter the correct username and password credentials (without <>), which are the same you are using for your Toon mobile app
+**Step 3.** Add the same lines as step 3 of the general installation
 
-Sensor:
-  - platform: command_line
-    name: Toon_temp
-    command: "python /config/scripts/toonclient.py -t -U <USERNAME> -P <PASSWORD>"
-    unit_of_measurement: '°C'
-
-- platform: command_line
-    name: Toon_PowerUsage
-    command: "python /config/scripts/toonclient.py -p -U <USERNAME> -P <PASSWORD>"
-    unit_of_measurement: 'Watt'
-
-# Following sensor returns current state
-# Program Turned Off(programma staat niet aan) == -1
-# RELAX (comfort) == 0
-# ACTIVE (thuis) == 1
-# SLEEP (slapen) == 2
-# AWAY (weg) == 3
-# HOLIDAY (vakantie) == 4
-- platform: command_line
-    name: Toon_Program_State
-    command: "python /config/scripts/toonclient.py -c -U <USERNAME> -P <PASSWORD>"
-
-```
 **Step 4.** Restart Home Assistant
 
 ## Make switches to set Toon program
@@ -132,7 +116,7 @@ See the configuraion files for examples. Later on more explanation on this.
 - [x] Adjust python client
 - [x] Create home assistent examples
 - [x] Make installation steps more clear
-- [ ] Explain creating "Toon Switchees"
+- [X] One sensor and extract it with a value_template to reduce payload on enecowebserver to prevent timeouts
 - [ ] Make polling intervals variable (depends on home assistant core feautures)
 
 
