@@ -29,6 +29,7 @@ sensor:
  - platform: command_line
    name: toon
    command: "python /home/pi/.homeassistant/scripts/toonclient.py -t -p -g -c -U <USERNAME> -P <PASSWORD>"
+   scan_interval: 60
 
  - platform: template
    sensors:

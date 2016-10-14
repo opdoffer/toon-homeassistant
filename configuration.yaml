@@ -1,34 +1,41 @@
 sensor:
-  - platform: command_line
-    name: Toon_temp
-    command: "python /config/scripts/toonclient.py -t -U <USERNAME> -P <PASSWORD>"
-    unit_of_measurement: '°C'
-    scan_interval: 60
+#Toon
+ - platform: command_line
+   name: toon
+   command: "python /home/pi/.homeassistant/scripts/toonclient.py -t -p -g -c -U <USERNAME> -P <PASSWORD>"
 
-  - platform: command_line
-    name: Toon_PowerUsage
-    command: "python /config/scripts/toonclient.py -p -U <USERNAME> -P <PASSWORD>"
-    unit_of_measurement: 'Watt' 
-    scan_interval: 60
-    
-  - platform: command_line
-    name: Toon_Program_State
-    command: "python /config/scripts/toonclient.py -c -U <USERNAME> -P <PASSWORD>"
-    scan_interval: 60
+ - platform: template
+   sensors:
+     toontemp:
+       value_template: '{{ states.sensor.toon.state.split("\n")[0] }}'
+     toonpowerusage:
+       value_template: '{{ states.sensor.toon.state.split("\n")[1] }}'
+     toongasusage:
+       value_template: '{{ states.sensor.toon.state.split("\n")[2] }}'
+     toonprogramm:
+       value_template: '{% if states.sensor.toon.state.split("\n")[3] == "0" %}Comfort{% elif states.sensor.toon.state.split("\n")[3] == "1" %}Home{% elif states.sensor.toon.state.split("\n")[3] == "2" %}Sleep{% elif states.sensor.toon.state.split("\n")[3] == "3" %}Away{% endif %}'
+
+# The toonprgramma sensor returns current state
+# Program Turned Off(programm off) == -1
+# RELAX (comfort) == 0
+# ACTIVE (home) == 1
+# SLEEP (sleep) == 2
+# AWAY (away) == 3
+# HOLIDAY (holiday) == 4
 
 
 switch:    
 # The following swith set Toon to "Comfort" with the oncmd and sets Toon to "Sleep" with the offcmd.
   - platform: command_line
     switches:
-      toon_prog_comfort:
+      toon_prog_comfort_sleep:
         oncmd: "python /config/scripts/toonclient.py -C 0 -U <USERNAME> -P <PASSWORD>"
         offcmd: "python /config/scripts/toonclient.py -C 2 -U <USERNAME> -P <PASSWORD>"
 
-# The following swith set Toon to "Thuis" with the oncmd and sets Toon to "Weg" with the offcmd.      
+# The following swith set Toon to "Home" with the oncmd and sets Toon to "Away" with the offcmd.      
   - platform: command_line
     switches:
-      toon_prog_thuis:
+      toon_prog_home_away:
         oncmd: "python /config/scripts/toonclient.py -C 1 -U <USERNAME> -P <PASSWORD>"
         offcmd: "python /config/scripts/toonclient.py -C 3 -U <USERNAME> -P <PASSWORD>"
        
@@ -38,14 +45,14 @@ scene:
     entities:
       switch.toon_prog_comfort: on
 
-  - name: Toon Slapen
+  - name: Toon Sleep
     entities:
       switch.toon_prog_comfort: off
 
-  - name: Toon Thuis
+  - name: Toon Home
     entities:
       switch.toon_prog_thuis: on
 
-  - name: Toon Weg
+  - name: Toon Away
     entities:
       switch.toon_prog_thuis: off
