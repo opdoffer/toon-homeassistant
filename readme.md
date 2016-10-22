@@ -56,15 +56,15 @@ switch:
   - platform: command_line
     switches:
       toon_prog_comfort_sleep:
-        oncmd: "python /config/scripts/toonclient.py -C 0 -U <USERNAME> -P <PASSWORD>"
-        offcmd: "python /config/scripts/toonclient.py -C 2 -U <USERNAME> -P <PASSWORD>"
+        command_on: "python /config/scripts/toonclient.py -C 0 -U <USERNAME> -P <PASSWORD>"
+        command_off: "python /config/scripts/toonclient.py -C 2 -U <USERNAME> -P <PASSWORD>"
 
 # The following swith set Toon to "Home" with the oncmd and sets Toon to "Away" with the offcmd.      
   - platform: command_line
     switches:
       toon_prog_home_away:
-        oncmd: "python /config/scripts/toonclient.py -C 1 -U <USERNAME> -P <PASSWORD>"
-        offcmd: "python /config/scripts/toonclient.py -C 3 -U <USERNAME> -P <PASSWORD>"
+        command_on: "python /config/scripts/toonclient.py -C 1 -U <USERNAME> -P <PASSWORD>"
+        command_off: "python /config/scripts/toonclient.py -C 3 -U <USERNAME> -P <PASSWORD>"
        
 # Special Scenes to easily activate the different Toon Programm States
 scene:
