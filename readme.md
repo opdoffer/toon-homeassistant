@@ -1,4 +1,8 @@
-﻿# Toon Python3 Module for Home Assistant
+﻿# This is not working anymore - do not use it - needs important changes
+# Please use https://github.com/krocat/toon
+
+
+# Toon Python3 Module for Home Assistant
 Toon Python3 module for Home Assistant. This python module is based on the [rvdm/toon](https://github.com/rvdm/toon). All credits for the development for this module and client to rvdm. Many thnx for that.
 The following changes I made to the original module:
 - made this module Python3 compliant print-command is requirering ();
